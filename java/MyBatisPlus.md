@@ -283,11 +283,11 @@ Closing non transactional SqlSession [org.apache.ibatis.session.defaults.Default
 
 1、在表中新增字段create_time
 
-![截屏2020-10-26 16.44.43](MyBatisPlus.assets/截屏2020-10-26 16.44.43.png)
+![截屏2020-10-26 16.44.43](MyBatisPlus.assets/p1.png)
 
 2、在表中增加update_time，并且勾选根据时间戳更新
 
-![截屏2020-10-26 16.44.51](MyBatisPlus.assets/截屏2020-10-26 16.44.51.png)
+![截屏2020-10-26 16.44.51](MyBatisPlus.assets/p2.png)
 
 3、对应实体bean增加对应的字段
 
@@ -316,7 +316,7 @@ public class User {
 
 4.执行一个更新操作,查看数据库
 
-![截屏2020-10-26 16.46.55](MyBatisPlus.assets/截屏2020-10-26 16.46.55.png)
+![截屏2020-10-26 16.46.55](MyBatisPlus.assets/p3.png)
 
 
 
@@ -326,11 +326,9 @@ public class User {
 
 1、删除数据库的默认值、更新操作！
 
-![截屏2020-10-26 16.49.14](MyBatisPlus.assets/截屏2020-10-26 16.49.14.png)
+![截屏2020-10-26 16.46.55](MyBatisPlus.assets/p4.png)
 
-![截屏2020-10-26 16.49.26](MyBatisPlus.assets/截屏2020-10-26 16.49.26.png)
-
-
+![截屏2020-10-26 16.46.55](MyBatisPlus.assets/p5.png)
 
 2、对应实体类上增加注解
 
@@ -408,7 +406,7 @@ where id = 2 and version = 1;
 
 1、给数据库中增加一个 int 类型默认值为 1 的version 字段。
 
-![截屏2020-10-27 09.40.28](MyBatisPlus.assets/截屏2020-10-27 09.40.28.png)
+![截屏2020-10-27 09.40.28](MyBatisPlus.assets/p6.png)
 
 2、对应的实体类对象增加字段和注解
 
@@ -625,7 +623,7 @@ public class MyBatisPlusConfig {
 
 1、数据库中增加int 长度1，默认值为0，字段名为deleted的字段
 
-![截屏2020-10-27 11.16.00](MyBatisPlus.assets/截屏2020-10-27 11.16.00.png)
+![截屏2020-10-27 11.16.00](MyBatisPlus.assets/p7.png)
 
 
 
@@ -685,7 +683,7 @@ public class User {
 
 先进行删除操作，再进行查询操作。表面上是已经删除成功，并且查询不到了。但是通过观察数据库发现数据还在，只是deleted的值从0修改为了1
 
-![截屏2020-10-27 13.32.26](MyBatisPlus.assets/截屏2020-10-27 13.32.26.png)
+![截屏2020-10-27 13.32.26](MyBatisPlus.assets/p8.png)
 
 
 

@@ -592,9 +592,9 @@ SELECT * FROM student WHERE borndate IS NOT NULL;
 
 > JOIN 对比
 
-![截屏2020-10-19 17.44.37](MySQL.assets/截屏2020-10-19 17.44.37.png)
+![截屏2020-10-19 17.44.37](MySQL.assets/p1.png)
 
-![join7](MySQL.assets/join7.jpg)
+![join7](MySQL.assets/p2.jpg)
 
 **查询参加考试的学生信息：（学号，姓名，科目编号，分数）**
 
@@ -610,7 +610,7 @@ SELECT * FROM student WHERE borndate IS NOT NULL;
 SELECT * FROM student;
 ```
 
-![截屏2020-10-20 10.26.21](MySQL.assets/截屏2020-10-20 10.26.21.png)
+![截屏2020-10-20 10.26.21](MySQL.assets/p3.png)
 
 查询成绩表
 
@@ -618,7 +618,7 @@ SELECT * FROM student;
 SELECT * FROM result;
 ```
 
-![截屏2020-10-20 10.27.55](MySQL.assets/截屏2020-10-20 10.27.55.png)
+![截屏2020-10-20 10.27.55](MySQL.assets/p4.png)
 
 学生表里面有学号为1000张伟，1001赵强，1002王五，三名学生
 
@@ -635,7 +635,7 @@ INNER JOIN result AS r
 ON s.studentno = r.studentno;
 ```
 
-![截屏2020-10-20 10.38.16](MySQL.assets/截屏2020-10-20 10.38.16.png)
+![截屏2020-10-20 10.38.16](MySQL.assets/p6.png)
 
 > 左连接 LEFT JOIN（返回左表所有的值，即使右表中没有匹配，没有匹配的值用NULL表示）
 
@@ -646,7 +646,7 @@ LEFT JOIN result AS r
 ON s.studentno = r.studentno;
 ```
 
-![截屏2020-10-20 10.40.57](MySQL.assets/截屏2020-10-20 10.40.57-3161878.png)
+![截屏2020-10-20 10.40.57](MySQL.assets/p7.png)
 
 > 右连接 RIGHT JOIN（返回右表所有的值，即使左表中没有匹配，没有匹配的值用NULL表示）
 
@@ -657,7 +657,7 @@ RIGHT JOIN result AS r
 ON s.studentno = r.studentno;
 ```
 
-![截屏2020-10-20 10.41.42](MySQL.assets/截屏2020-10-20 10.41.42-3161948.png)
+![截屏2020-10-20 10.41.42](MySQL.assets/p8.png)
 
 > 左连接-某列不为NULL时（返回左表独有的数据，即使右表中没有匹配，没有匹配的值用NULL表示）
 
@@ -669,7 +669,7 @@ ON s.studentno = r.studentno
 WHERE r.studentno IS NULL;
 ```
 
-![截屏2020-10-20 11.12.29](MySQL.assets/截屏2020-10-20 11.12.29.png)
+![截屏2020-10-20 11.12.29](MySQL.assets/p9.png)
 
 **查询参加考试的学生信息：学号，学生姓名，科目名，分数**
 
@@ -685,7 +685,7 @@ WHERE r.studentno IS NULL;
 SELECT * FROM `subject`;
 ```
 
-![截屏2020-10-20 13.38.45](MySQL.assets/截屏2020-10-20 13.38.45.png)
+![截屏2020-10-20 13.38.45](MySQL.assets/p10.png)
 
 ```sql
 SELECT s.studentno,s.studentname,sub.subjectname,r.studentresult 
@@ -696,7 +696,7 @@ INNER JOIN `subject` AS sub
 ON r.subjectno = sub.subjectno
 ```
 
-![截屏2020-10-20 13.51.09](MySQL.assets/截屏2020-10-20 13.51.09.png)
+![截屏2020-10-20 13.51.09](MySQL.assets/p11.png)
 
 > 自连接
 
@@ -706,7 +706,7 @@ ON r.subjectno = sub.subjectno
 SELECT * FROM `category`;
 ```
 
-![截屏2020-10-20 15.49.29](MySQL.assets/截屏2020-10-20 15.49.29.png)
+![截屏2020-10-20 15.49.29](MySQL.assets/p12.png)
 
 父栏目：
 
@@ -740,7 +740,7 @@ FROM `category` AS fu,`category` AS zi
 WHERE fu.categoryid = zi.pid;
 ```
 
-![截屏2020-10-20 16.10.04](MySQL.assets/截屏2020-10-20 16.10.04.png)
+![截屏2020-10-20 16.10.04](MySQL.assets/p13.png)
 
 ## 4.5、排序和分页
 
