@@ -89,7 +89,7 @@ JWT 编码之前：
 Header的JSON . Payload的JSON. HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload),secret)
 ```
 
-JWT编码之后：
+JWT 编码之后：
 
 ```markdown
 sadfasdfasdfasdfasdfasdf.awerqwerqwefasdfasdfasdfasdfadsfawef.adsfqwer234asdfasdfasdf
