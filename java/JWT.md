@@ -115,5 +115,50 @@ sadfasdfasdfasdfasdfasdf.awerqwerqwefasdfasdfasdfasdfadsfawef.adsfqwer234asdfasd
 </dependency>
 ```
 
+> 生成Token
+
+```java
+    @Test
+    public void JWTcreate() {
+        Calendar calendar = Calendar.getInstance();
+        //设置10分后过期
+        calendar.add(Calendar.MINUTE,10);
+        String token = JWT.create()
+                // payLoad
+                .withClaim("userId", 21)
+                .withClaim("username", "张三")
+                // 过期时间
+                .withExpiresAt(calendar.getTime())
+                //签名
+                .sign(Algorithm.HMAC256("我是盐"));
+        System.out.println(token);
+    }
+```
+
+> 验证并且得到payLoad的值
+
+```java
+    @Test
+    public void JWTVerifier(){
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("我是盐1")).build();
+        DecodedJWT decodedJWT = jwtVerifier.verify("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDc5MjQxODUsInVzZXJJZCI6MjEsInVzZXJuYW1lIjoi5byg5LiJIn0.2URrVNptHKIeTLO0Sg_VukYK1b0yhGvusC56HGp_71w");
+        Integer userId = decodedJWT.getClaim("userId").asInt();
+        String username = decodedJWT.getClaim("username").asString();
+        System.out.println(userId);
+        System.out.println(username);
+    }
+```
+
+> 常见的异常信息
+
+``` java
+// 签名不一致异常
+SignatureVerificationException:
+// 令牌过期异常
+TokenExpiredException
+// 算法不一致异常
+AlgorithmMismatchException 
+```
+
 
 
