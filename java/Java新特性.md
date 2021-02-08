@@ -13,7 +13,7 @@ Java8 中引入了一个新的操作符"->"，该操作符称为箭头操作符�
 
 #### 1.1.2、前提条件
 
-使用 Lambda 表达式需要“函数式接口”的支持，“函数式接口” 就是只有一个抽象方法的接口。可以使用注解@FunctionalInterface  修饰，来检查是否是函数式接口
+使用 Lambda 表达式需要“函数式接口”的支持，“函数式接口” 就是只有一个抽象方法的接口。可以使用注解@FunctionalInterface  修饰，来检查是否是函数式接口。==Lamdba 表达式的本质：作为函数式接口的实例==
 
 ```java
 // 定义一个函数式接口
@@ -22,6 +22,25 @@ interface haha {
 	void ha();
 }
 ```
+
+#### 1.1.3、Java 内置四大核心函数式接口
+
+| 函数式接口                    | 参数类型 | 返回类型 | 用途                                                         |
+| ----------------------------- | -------- | -------- | ------------------------------------------------------------ |
+| Consumer<T><br />消费型接口   | T        | void     | 对类型为T的对象应用操作，包含方法：<br />void accept(T t)    |
+| Supplier<T><br />供给型接口   | 无       | T        | 返回类型为T的对象，包含方法：<br />T get()                   |
+| Function<T,R><br />函数型接口 | T        | R        | 对类型为T的对象应用操作，并且返回结果。结果是R类型的对象。包含方法：<br />R apply(T t) |
+| Predicate<T><br />断定型接口  | T        | boolean  | 确定类型为T的对象是否满足约束，并返回boolean 值。包含方法：<br />boolean test(T t) |
+
+#### 1.1.4、什么时候需要使用 Lamdba 表达式？
+
+当需要对一个函数式接口实例化的时候，不想用匿名内部类就可以使用 Lamdba 表达式。
+
+#### 1.1.5、什么时候需要使用jdk内置的函数式接口？
+
+如果我们开发中需要定义一个函数式接口，首先看看在已有的JDK提供的函数式接口中是否提供了能满足需求的函数式接口。如果有，则直接调用即可，不满足再自定义。
+
+#### 1.1.6、基本使用
 
 > 语法格式一：无参数，无返回值
 
@@ -142,7 +161,7 @@ Comparator<Integer> comparator = new Comparator<Integer>() {
 Comparator<Integer> comparator2 = (x, y) -> Integer.compare(x, y);
 ```
 
-#### 1.1.3、方法引用
+#### 1.1.7、方法引用
 
 若 Lambda 体中的内容有方法已经实现了，我们可以使用“方法引用”。“方法引用”可以理解是 Lamdba 表达式的另外一种表现形式。
 
@@ -194,7 +213,7 @@ BiPredicate<String, String> biPredicate = (x, y) -> x.equals(y);
 BiPredicate<String, String> biPredicate2 = String::equals;
 ```
 
-#### 1.1.4、构造器引用
+#### 1.1.8、构造器引用
 
 格式：
 
@@ -262,7 +281,7 @@ System.out.println(person2);
 
 ```
 
-#### 1.1.5、数组引用
+#### 1.1.9、数组引用
 
 格式:
 
