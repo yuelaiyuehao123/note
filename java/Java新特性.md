@@ -15,6 +15,14 @@ Java8 中引入了一个新的操作符"->"，该操作符称为箭头操作符�
 
 使用 Lambda 表达式需要“函数式接口”的支持，“函数式接口” 就是只有一个抽象方法的接口。可以使用注解@FunctionalInterface  修饰，来检查是否是函数式接口
 
+```java
+// 定义一个函数式接口
+@FunctionalInterface
+interface haha {
+	void ha();
+}
+```
+
 > 语法格式一：无参数，无返回值
 
 ```java
