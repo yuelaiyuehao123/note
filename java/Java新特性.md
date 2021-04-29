@@ -4,7 +4,7 @@
 
 ### 1.1、 Lambda
 
-#### 1.1.1、基础语法
+#### 1.1.1、概念
 
 Java8 中引入了一个新的操作符"->"，该操作符称为箭头操作符或 Lambda 操作符。箭头操作符将 Lamdba 表达式拆成两部分：
 
@@ -302,6 +302,80 @@ System.out.println(strings2.length);
 
 
 ### 1.2、 stream
+
+#### 1.2.1、概念
+
+stream 是Java8 提供的一套API。使用这套 API 可以对内存中的数据进行过滤、排序、映射、归约等操作。
+
+#### 1.2.2、注意点：
+
+- stream 自己不会存储元素
+- stream 不会改变源对象。相反，他们会返回一个持有结果的新的stream
+- stream 操作是延迟执行的。这意味着他们会等到需要结果的时候才执行
+
+#### 1.2.3、使用流程：
+
+1. stream 的实例化
+2. 一系列的中间操作（过滤、映射、。。。）
+3. 终止操作
+
+#### 1.2.4、使用流程的注意点：
+
+- 一个中间操作链，对数据源的数据进行处理
+
+- 一旦执行终止操作，就执行中间操作链，并产生结果。之后，不会再被使用
+
+#### 1.2.5、创建 stream 的几种方式
+
+```java
+// 1.通过 Collection 系列集合提供的 stream() 或者 parallelStream()
+ArrayList<String> list = new ArrayList<>();
+Stream<String> stream1 = list.stream();
+
+// 2.通过 Arrays 中的静态方法 stream()
+String[] array = new String[10];
+Stream<String> stream2 = Arrays.stream(array);
+
+// 3.通过 Stream 类中的静态方法 of()
+Stream<String> stream3 = Stream.of("a", "b", "c");
+
+// 4.创建无限流
+Stream<Integer> stream4 = Stream.iterate(0, (x) -> x + 2);
+stream4.limit(10).forEach(System.out::println);
+
+// 5.生成
+Stream<Double> stream5 = Stream.generate(() -> Math.random());
+stream5.limit(10).forEach(System.out::println);
+```
+
+#### 1.2.6、中间操作
+
+> 筛选与切片
+
+filter 接受 Lambda，从流中排除某些元素
+
+limit 截断流，使其元素不超过给定的数量
+
+skip(n) 跳过元素，返回一个扔掉了前 n 个元素的流。若流中元素不足 n 个，则返回一个空流，与 limit(n) 互补
+
+distinct 筛选，通过流所生产元素的 hashCode() 和 equals() 去除重复元素
+
+```java
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
