@@ -10,19 +10,19 @@
 https://appleid.apple.com
 ```
 
-![p1](Apple账号地区切换到香港.assets/p1.jpg)
+![p1](appstore.assets/p1.jpg)
 
 
 
 ### 3、登录成功后选择 Account（账号）
 
-![p2](Apple账号地区切换到香港.assets/p2.jpg)
+![p2](appstore.assets/p2.jpg)
 
 
 
 ### 4、拉到底部，将地区修改为“Hong Kong”（香港）
 
-![p3](Apple账号地区切换到香港.assets/p3.jpg)
+![p3](appstore.assets/p3.jpg)
 
 
 
@@ -34,7 +34,7 @@ https://appleid.apple.com
 - 地区码为852
 - 电话号码是8位，必须为9或者6开头
 
-![p4](Apple账号地区切换到香港.assets/p4.jpg)
+![p4](appstore.assets/p4.jpg)
 
 
 
