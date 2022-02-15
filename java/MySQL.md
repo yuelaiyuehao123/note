@@ -114,13 +114,13 @@ Query OK, 1 row affected (0.01 sec)
 1、创建数据库
 
 ```sql
-CREATE DATABASE [IF NOT EXISTS] westos;
+CREATE DATABASE westos;
 ```
 
 2、删除数据库
 
 ```sql
-DROP DATABASE [IF EXISTS] westos;
+DROP DATABASE westos;
 ```
 
 3、使用数据库
