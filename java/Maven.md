@@ -17,7 +17,9 @@
 https://maven.apache.org/index.html
 ```
 
-![a](/Users/cuiyue/workspase/doc/note/java/Maven.assets/a.png)
+![p1](Maven.assets/p1.png)
+
+
 
 ### 1.2.2、环境变量
 
