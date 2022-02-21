@@ -96,21 +96,71 @@ Maven坐标主要组成
 https://mvnrepository.com/
 ```
 
-## 2.3、本地仓库配置
+## 2.3、配置maven
+
+
+
+### 2.3.1、配置本地仓库
 
 如果不配置的话，以后下载的jar包都存在 /Users/cuiyue/.m2 ，不太好，需要配置一下仓库路径
 
 ```shell
-# 1.打开maven解压之后的配置文件
+# 1.打开maven配置文件
 /Users/cuiyue/tools/apache-maven-3.8.4/conf/settings.xml
+
+# 2.在解压后的maven目录下创建一个专门存放下载文件夹repository
 
 # 2.设置自定义仓库位置
 <localRepository>/Users/cuiyue/tools/apache-maven-3.8.4/repository</localRepository>
 ```
 
-## 2.4、远程仓库配置
+###  2.3.2、配置远程仓库
 
+配置远程镜像仓库到阿里云，方便以后下载速度提升
 
+```shell
+# 1.打开maven配置文件
+/Users/cuiyue/tools/apache-maven-3.8.4/conf/settings.xml
+
+# 2.设置远程镜像仓库
+<mirrors>
+    <mirror>
+        <id>nexus-aliyun</id>
+        <mirrorOf>central</mirrorOf>
+        <name>Nexus aliyun</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+    </mirror>
+</mirrors>
+```
+
+### 2.3.3、配置java版本
+
+```shell
+<profiles>
+    <profile>
+        <id>jdk-1.8</id>  
+        <activation>  
+            <activeByDefault>true</activeByDefault>  
+            <jdk>1.8</jdk>  
+        </activation>  
+        <properties>  
+            <maven.compiler.source>1.8</maven.compiler.source>  
+            <maven.compiler.target>1.8</maven.compiler.target>  
+            <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>  
+        </properties>
+    </profile>
+</profiles>
+```
+
+### 2.3.4、配置idea中maven
+
+在idea中引用下载好的maven
+
+1. 配置Maven home path
+2. 配置User setting file
+3. 配置Local repository
+
+![截屏2022-02-21 下午4.36.43](Maven.assets/p2.png)
 
 
 
