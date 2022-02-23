@@ -164,3 +164,105 @@ https://mvnrepository.com/
 
 
 
+# 3、依赖管理
+
+## 3.1、依赖配置
+
+依赖指当前项目运行所需要的jar，一个项目可以设置多个依赖
+
+格式：
+
+```xml
+<!--设置当前项目依赖所有的jar-->
+<dependencies>
+  <!--设置具体的依赖-->
+	<dependency>
+    <!--依赖所属群组id-->
+    <groupId>junit</groupId>
+    <!--依赖所属项目id-->
+    <artifactId>junit</artifactId>
+    <!--依赖版本号-->
+    <version>4.13</version>
+  </dependency>
+</dependencies>
+```
+
+## 3.2、依赖传递
+
+- 当项目A引用了项目B，项目B引用了a.jar包，项目A也可以使用a.jar
+
+- 当项目A引用了a.jar包，a.jar包中引用了b.jar，项目A也可以使用b.jar
+
+![p3](Maven.assets/p3.png)
+
+上面截图中，项目web01引用了项目web03,项目web03中引用了junit，web01也可以使用junit
+
+
+
+## 3.3、可选依赖（不透明）
+
+当项目B引用了junit,项目A引用了项目B，项目B不想让junit，对外暴露出去可以增加optional标签进行隔离。
+
+![p4](Maven.assets/p4.png)
+
+上面截图中web03中使用optional标签屏蔽了junit,web01在引用web03就看不到junit了。
+
+```xml
+<optional>true</optional>
+```
+
+
+
+## 3.4、排除依赖（不需要）
+
+当项目B引用了junit,项目A引用了项目B，我们不想在项目A中使用junit，又无法修改B的代码。可以在项目A中使用exclusions排除针对junit的依赖。
+
+![p5](Maven.assets/p5.png)
+
+上面截图中， web03使用了junit，web01引用了web03,又不想使用junit，就可以用exclusions排除依赖
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>com.cy</groupId>
+            <artifactId>web03</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+```
+
+
+
+## 3.5、依赖传递冲突问题
+
+路径优先：当依赖中出现相同的资源时，层级越深，优先级越低，层级越浅，优先级越高。
+
+![p6](Maven.assets/p6.png)
+
+上面截图中web03使用了junit4.13版本，web02引用了web03,和引用了junit4.12版本。最终web02使用的junit是4.12版本
+
+
+
+## 3.6、依赖范围
+
+依赖的jar默认情况可以在任何地方使用，可以用过scope标签设定其作用范围
+
+作用范围：
+
+- 主程序范围有效（main文件夹范围内）
+- 测试程序范围有效（test文件夹范围内）
+- 是否参与打包（package指令范围内）
+
+| scope           | 主代码 | 测试代码 | 打包 | 范例        |
+| --------------- | ------ | -------- | ---- | ----------- |
+| compile（默认） | Y      | Y        | Y    | Log4j       |
+| test            |        | Y        |      |             |
+| provided        | Y      | Y        |      | Servlet-api |
+| runtime         |        |          | Y    | Jdbc        |
+
