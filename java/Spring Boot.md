@@ -165,3 +165,11 @@ public class SpringConfig {
 
 
 
+举例：
+
+1. 在 resources 目录下，创建 properties 文件，使用 k = v 的格式提供数据
+2. 在 PropertyResource 指定  properties 文件的位置
+3. 使用@Value（ value = "${key}"）
+
+
+
