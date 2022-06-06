@@ -266,3 +266,36 @@ https://mvnrepository.com/
 | provided        | Y      | Y        |      | Servlet-api |
 | runtime         |        |          | Y    | Jdbc        |
 
+
+
+# 4、生命周期与插件
+
+## 4.1、构建生命周期
+
+maven对项目构建的生命周期划分为3套
+
+- Clean：清理工作
+  - Pre- clean：执行一些需要在clean之前完成的工作
+  - Clean：移除所有上一次构建生成的文件
+  - Post-clean：执行一些在clean之后立刻完成的工作
+- Default：核心工作，例如编译，测试，打包，部署等
+  - Compile：编译
+  - Test-compile：编译测试源码
+  - Test：测试
+  - package：打包
+  - Install：安装
+
+- Site：产生报告，发布站点等
+  - Pre-site：执行一些需要在生成站点文档之前完成的工作
+  - Site：生成项目的站点文档
+  - Post-site：执行一些需要在生成站点文档之后完成的工作，并且为部署做准备
+  - Site-deploy：将生成的站点文档部署到特定的服务器上
+
+
+
+## 4.2、插件
+
+- 插件与生命周期内的阶段绑定，在执行到对应生命周期时执行对应的插件功能
+- 默认maven在各个生命周期上绑定有预设的功能
+- 通过插件可以自定义其他功能
+
