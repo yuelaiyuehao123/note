@@ -163,13 +163,78 @@ public class SpringConfig {
 
 @PropertyResource 读取 properties 属性配置文件。使用属性配置文件可以实现外部化配置，在程序代码之外提供数据。
 
-
-
 举例：
 
 1. 在 resources 目录下，创建 properties 文件，使用 k = v 的格式提供数据
-2. 在 PropertyResource 指定  properties 文件的位置
+
+```properties
+tiger.name=东北虎
+tiger.age=3
+```
+
+2. 在 PropertyResource 指定  properties 文件的位置，和对应的 Java Bean所在的包
+
+```java
+@Configuration
+@PropertySource(value = "classpath:config.properties")
+@ComponentScan(basePackages = "com.cy.vo")
+public class SpringConfig {
+
+
+}
+
+```
+
 3. 使用@Value（ value = "${key}"）
 
+```java
+package com.cy.vo;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component("tiger")
+public class Tiger {
+
+    @Value("${tiger.name}")
+    private String name;
+    @Value("${tiger.age}")
+    private int age;
+
+    @Override
+    public String toString() {
+        return "Tiger{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+}
+```
+
+4. 测试
+
+```java
+/**
+* 得到 config.properties 里面的值
+*/
+@Test
+public void test04() {
+		ApplicationContext applicationContext =
+			new AnnotationConfigApplicationContext(SpringConfig.class);
+		Tiger tiger = (Tiger) applicationContext.getBean("tiger");
+		System.out.println(tiger);
+}
+```
 
 
+
+## 1.2、 第二章 Spring Boot 入门
+
+### 1.2.1、 第一种方式：https://start.spring.io
+
+使用 spring boot 提供的初始化器。导向的方式，完成spring boot 项目的创建。
+
+#### 1.2.1.1、创建项目步骤
+
+1. 新建项目 
