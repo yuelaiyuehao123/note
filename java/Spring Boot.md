@@ -267,5 +267,54 @@ server:
     context-path: /myboot2
 ```
 
+### 2.3、多环境配置
+
+有开发环境，测试环境，上线环境
+
+每个环境有不同的配置信息，例如端口，上下文件，数据库url，用户名，密码等等
+
+使用多环境配置文件，可以方便的切换不同的配置。
+
+使用方式：创建多个匹配文件，名称规则：application-环境名称.yml
+
+举例：
+
+在resources目录下创建
+
+- application.yml 并指向 application-pro.yml
+
+```yml
+spring:
+  profiles:
+    active: pro
+```
+
+- application-dev.yml
+
+```xml
+server:
+  port: 8083
+  servlet:
+    context-path: /dev
+```
+
+- application-test.yml
+
+```xml
+server:
+  port: 8083
+  servlet:
+    context-path: /test
+```
+
+- application-pro.yml
+
+```xml
+server:
+  port: 8083
+  servlet:
+    context-path: /pro
+```
+
 
 
