@@ -1,8 +1,8 @@
 # Spring Boot 
 
-## 1.1、第一章 Xml 和 JavaConfig
+## 1、第一章 Xml 和 JavaConfig
 
-### 1.1.1、pom.xml 配置
+### 1.1、pom.xml 配置
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -56,7 +56,7 @@
 
 
 
-### 1.1.2、什么是 JavaConfig
+### 1.2、什么是 JavaConfig
 
 JavaConfig：使用 Java 类作为 XML 配置文件的替代，是配置 Spring 容器的纯 Java 的方式。在这个 Java 类中可以创建
 
@@ -109,7 +109,7 @@ public class SpringConfig {
 
 
 
-### 1.1.3、@ImporResource
+### 1.3、@ImporResource
 
 @ImportResource 作用导入其他的 XML 配置文件
 
@@ -159,7 +159,7 @@ public class SpringConfig {
 
 
 
-### 1.1.4、@PropertyResource
+### 1.4、@PropertyResource
 
 @PropertyResource 读取 properties 属性配置文件。使用属性配置文件可以实现外部化配置，在程序代码之外提供数据。
 
@@ -229,9 +229,9 @@ public void test04() {
 
 
 
-## 1.2、 第二章 Spring Boot 入门
+## 2、 第二章 Spring Boot 入门
 
-### 1.2.1、 相关注解
+### 2.1、相关注解
 
 ```java
 @SpringBootApplication
@@ -245,7 +245,7 @@ public void test04() {
    扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类。
 ```
 
-### 1.2.2、配置文件
+### 2.2、配置文件
 
 配置文件名称：application 扩展名有 application.properties 和 application.yml
 
