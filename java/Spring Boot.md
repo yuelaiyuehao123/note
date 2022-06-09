@@ -231,15 +231,41 @@ public void test04() {
 
 ## 1.2、 第二章 Spring Boot 入门
 
-### 1.2.1、 第一种方式：https://start.spring.io
+### 1.2.1、 相关注解
 
-使用 spring boot 提供的初始化器。导向的方式，完成spring boot 项目的创建。
+```java
+@SpringBootApplication
+是复合注解，由下面几个注解组成
+1. @SpringBootConfiguration
+   允许在 Spring 上下文中注册额外的 bean 或导入其他配置类
+2. @EnableAutoConfiguration
+   启用 SpringBoot 的自动配置机制。帮助SpringBoot应用将所有符合条件的@Configuration配置都加载到当前SpringBoot，
+   并创建对应配置类的Bean，并把该Bean实体交给IoC容器进行管理。
+3. @ComponentScan
+   扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类。
+```
 
-#### 1.2.1.1、创建项目步骤
+### 1.2.2、配置文件
 
-1. 新建项目 
+配置文件名称：application 扩展名有 application.properties 和 application.yml
 
+1. application.properties
 
+```properties
+# 设置端口号
+server.port=8082
+# 设置访问应用上下文路径，contextPath
+server.servlet.context-path=/myboot
+```
+
+2. application.yml
+
+```yml
+server:
+  port: 8083
+  servlet:
+    context-path: /myboot2
+```
 
 
 
