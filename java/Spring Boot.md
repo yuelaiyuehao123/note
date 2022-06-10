@@ -260,12 +260,14 @@ server.servlet.context-path=/myboot
 
 2. application.yml
 
-```yml
+```yaml
 server:
   port: 8083
   servlet:
     context-path: /myboot2
 ```
+
+
 
 ### 2.3、多环境配置
 
@@ -283,7 +285,7 @@ server:
 
 - application.yml 并指向 application-pro.yml
 
-```yml
+```yaml
 spring:
   profiles:
     active: pro
@@ -291,7 +293,7 @@ spring:
 
 - application-dev.yml
 
-```xml
+```yaml
 server:
   port: 8083
   servlet:
@@ -300,7 +302,7 @@ server:
 
 - application-test.yml
 
-```xml
+```yaml
 server:
   port: 8083
   servlet:
@@ -309,7 +311,7 @@ server:
 
 - application-pro.yml
 
-```xml
+```yaml
 server:
   port: 8083
   servlet:
@@ -317,4 +319,48 @@ server:
 ```
 
 
+
+### 2.4、Spring Boot 自定义配置
+
+#### 2.4.1、@Value 注解
+
+1. 在yml文件里面配置
+
+```yaml
+server:
+  port: 8083
+  servlet:
+    context-path: /pro
+
+persion:
+  name: 张三
+  age: 18
+
+dog:
+  name: 小白
+```
+
+2. 在 Controller 里面取值
+
+```java
+@Controller
+public class BootController {
+
+    @Value("${server.port}")
+    private Integer port;
+
+    @Value("${persion.age}")
+    private Integer age;
+
+    @Value("${persion.name}")
+    private String persionName;
+
+    @RequestMapping("/hello")
+    @ResponseBody
+    public String hello() {
+        return "port----->" + port + "-----age--->" + age + "--persionName-->" + persionName;
+    }
+
+}
+```
 
