@@ -505,3 +505,46 @@ public class MyAppConfig implements WebMvcConfigurer {
 }
 ```
 
+
+
+### 3.2、过滤器
+
+1. 创建过滤器类，实现 Filter 接口，重写 doFilter() 方法
+
+```jaav
+public class MyFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("doFilter");
+    }
+
+}
+```
+
+2. 创建配置类，把过滤器注册到配置类里面
+
+```java
+@Configuration
+public class MyAppConfig implements WebMvcConfigurer {
+  
+    /**
+     * 把过滤器对象，注入到容器中
+     */
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        MyFilter myFilter = new MyFilter();
+        bean.setFilter(myFilter);
+        bean.addUrlPatterns("/boot/dog");
+        return bean;
+    }
+
+}
+
+```
+
+
+
+
+
