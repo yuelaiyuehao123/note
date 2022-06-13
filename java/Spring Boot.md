@@ -449,3 +449,59 @@ public class App implements CommandLineRunner {
 }
 ```
 
+
+
+## 3、第三章 Spring Boot  和 Web 组件
+
+### 3.1、拦截器
+
+拦截器是SpringMVC中一种对象，能拦截对Controller的请求。
+
+拦截器框架中有系统的拦截器，还可以自定义拦截器。实现对请求预先处理。
+
+1. 创建拦截器类，实现 HandlerInterceptor 接口，重写 preHandle() 方法
+
+```java
+public class LoginInterceptor implements HandlerInterceptor {
+
+    /**
+     * @param request
+     * @param response
+     * @param handler 被拦截器的控制器对象
+     * @return
+     *  true: 请求能被Controller处理
+     *  false:请求被截断
+     * @throws Exception
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("执行了preHandle");
+        return true;
+    }
+
+}
+```
+
+2. 创建配置类，把拦截器注册到配置类里面
+
+```java
+@Configuration
+public class MyAppConfig implements WebMvcConfigurer {
+
+    /**
+     * 把拦截器对象，注入到容器中
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 拦截器对象
+        LoginInterceptor loginInterceptor = new LoginInterceptor();
+        // 拦截的地址
+        String[] path = {"/boot/**"};
+        // 不拦截的地址
+        String[] excludePath = {"/boot/hello"};
+        registry.addInterceptor(loginInterceptor).addPathPatterns(path).excludePathPatterns(excludePath);
+    }
+
+}
+```
+
