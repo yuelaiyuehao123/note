@@ -429,3 +429,23 @@ public class BootController {
 
 ```
 
+
+
+### 2.5、CommandLineRunner 接口
+
+配置类实现 CommandLineRunner 接口，并重写run() 方法。容器启动之后会自动执行 run() 方法，有需要在容器启动之后执行一些内容。比如读取配置文件，数据库连接之类的。可以吧逻辑写在该方法里面
+
+```java
+@SpringBootApplication
+public class App implements CommandLineRunner {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+    }
+}
+```
+
