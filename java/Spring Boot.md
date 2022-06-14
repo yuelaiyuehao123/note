@@ -546,5 +546,202 @@ public class MyAppConfig implements WebMvcConfigurer {
 
 
 
+## 4、第四章 Spring Boot 操作 MySQL
 
+使用 MyBatis 框架操作数据库， 在Spring Boot  中集成 MyBatis
+
+### 4.1 使用步骤
+
+1. pom.xml 中增加 mybatis 和 mysql 驱动依赖
+
+```xml
+ <!-- mybatis -->
+<dependency>
+	<groupId>org.mybatis.spring.boot</groupId>
+	<artifactId>mybatis-spring-boot-starter</artifactId>
+	<version>2.2.2</version>
+</dependency>
+
+<!-- mysql驱动 -->
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>8.0.29</version>
+</dependency>
+```
+
+2. application.yml 中配置 mybatis 和 mysql连接信息
+
+```yaml
+mybatis:
+	# 项目中 mapper 文件路径
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  # 开启 mysql 的日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#  mysql 链接信息
+spring:
+  datasource:
+    username: root
+    password: 12345678
+    url: jdbc:mysql://127.0.0.1:3306/demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
+
+3. App 启动类 增加 mapper 扫描注解
+
+```java
+@SpringBootApplication
+@MapperScan("com.cy.mapper")
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
+}
+
+```
+
+4. 创建实体类对象
+
+```java
+package com.cy.bean;
+
+public class Student {
+
+    private int id;
+    private String name;
+    private int gradeid;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGradeid() {
+        return gradeid;
+    }
+
+    public void setGradeid(int gradeid) {
+        this.gradeid = gradeid;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gradeid=" + gradeid +
+                '}';
+    }
+
+}
+```
+
+5. 增加 mapper 包，创建 mapper 接口
+
+```java
+package com.cy.mapper;
+
+import com.cy.bean.Student;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface StudentMapper {
+
+    Student selectById(Integer id);
+
+}
+
+```
+
+6. 在 resource 目录下 创建 mapper 目录并创建对应的 StudentMapper.xml 文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.mapper.StudentMapper">
+
+    <select id="selectById" resultType="com.cy.bean.Student">
+        select * from student where id=#{id}
+    </select>
+
+</mapper>
+```
+
+7. 增加 service 包，创建 StudentService 接口
+
+```java
+package com.cy.service;
+
+import com.cy.bean.Student;
+
+public interface StudentService {
+
+    Student queryStudent(int id);
+
+}
+```
+
+8. 在 service 包中增加 impl 子包，并且实现 StudentService 接口
+
+```java
+package com.cy.service.impl;
+
+import com.cy.bean.Student;
+import com.cy.mapper.StudentMapper;
+import com.cy.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class StudentServiceImpl implements StudentService {
+
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Override
+    public Student queryStudent(int id) {
+        Student student = studentMapper.selectById(id);
+        return student;
+    }
+
+}
+```
+
+9. 在 Controller 中调用 Service 
+
+```java
+@Controller
+public class StudentController {
+
+    @Autowired
+    private StudentService studentService;
+
+    @RequestMapping("/student/query")
+    @ResponseBody
+    public String queryStudent(int id) {
+        Student student = studentService.queryStudent(id);
+        return student.toString();
+    }
+
+}
+```
+
+
+
+### 4.2 事务
 
