@@ -761,3 +761,32 @@ public void addStudent(Student student) {
 1. 只有Public方法才能开启事务
 2. 检查类有没有被Spring管理（方法被标注了@Transactional，但是类没有注解，没有被Spring管理也不会生效）
 3. 检查是否在事务中新开启了一个线程（因为spring实现事务的原理是通过ThreadLocal把数据库连接绑定到当前线程中，新开启一个线程获取到的连接就不是同一个了。）
+
+
+
+## 5、第五章 RESTful 风格接口
+
+### 5.1 RESTful 接口特点
+
+1. 每一个URI代表1种资源
+2. 客户端使用GET、POST、PUT、DELETE4个表示操作方式的动词对服务端资源进行操作：GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源
+3. 通过操作资源的表现形式来操作资源
+4. 资源的表现形式是XML或者HTML
+5. 客户端与服务端之间的交互在请求之间是无状态的，从客户端到服务端的每个请求都必须包含理解请求所必需的信息
+
+
+
+### 5.2 注解
+
+@RestController：复合注解，是 @Controller 和 @ResponseBody 的组合。在类上面使用 @RestController，表示当前类所有的方法都加入了 @ResponseBody
+
+@PathVariable：从 url 中获取数据
+
+@GetMapping：支持 get 请求方式，等同于@RequestMapping(method = RequestMethod.GET)
+
+@PostMapping：支持 post 请求方式，等同于@RequestMapping(method = RequestMethod.POST)
+
+@PutMapping：支持 put 请求方式，等同于@RequestMapping(method = RequestMethod.PUT)
+
+@DeleteMapping：支持 delete 请求方式，等同于@RequestMapping(method = RequestMethod.DELETE)
+
