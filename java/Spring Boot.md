@@ -745,3 +745,19 @@ public class StudentController {
 
 ### 4.2 事务
 
+在需要增加事务的方法上增加注解 @Transactional 即可
+
+```java
+@Transactional
+@Override
+public void addStudent(Student student) {
+	int rows = studentMapper.addStudent(student);
+	int a = 10 / 0;
+}
+```
+
+注意点:
+
+1. 只有Public方法才能开启事务
+2. 检查类有没有被Spring管理（方法被标注了@Transactional，但是类没有注解，没有被Spring管理也不会生效）
+3. 检查是否在事务中新开启了一个线程（因为spring实现事务的原理是通过ThreadLocal把数据库连接绑定到当前线程中，新开启一个线程获取到的连接就不是同一个了。）
