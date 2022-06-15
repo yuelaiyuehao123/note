@@ -790,3 +790,32 @@ public void addStudent(Student student) {
 
 @DeleteMapping：支持 delete 请求方式，等同于@RequestMapping(method = RequestMethod.DELETE)
 
+```java
+// 访问下面 URL
+http://192.168.72.32:8082/dev/student/2
+
+// 得到上面 URL 的 2 
+@GetMapping("/student/{stuId}")
+@ResponseBody
+public String queryStudentById(@PathVariable("stuId") int id) {
+		Student student = studentService.queryStudent(id);
+		return student.toString();
+}
+```
+
+
+
+## 6、第六章 Spring Boot 集成 Redis
+
+### 6.1、Redis 介绍
+
+Redis：是一个 NoSQL 数据库，常用作为缓存使用（cache）。Redis 是一个中间件，是一个独立的服务器。Java 中著名的客户端有：Jedis，lettuce，Redisson。在 Spring Boot 中 用 RedisTemplate（StringRedisTemplate），处理和 Redis 交互。
+
+Redis：的数据类型有:
+
+1. string（字符串）
+2. hash（哈希）
+3. list（列表）
+4. set（集合）
+5. zset（sorted set：有序集合）
+
