@@ -83,10 +83,10 @@
 
 ```xml
 <parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.1</version>
-		<relativePath/>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.4.1</version>
+	<relativePath/>
 </parent>
 
 <!-- parent 最大的作用是，在内部指定了常用工具的版本号。使得我们在使用这些库的时候，可以不用指定版本号。 -->
@@ -96,8 +96,8 @@
 
 ```xml
 <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-web</artifactId>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
 </dependency>
 
 <!-- starter 最大的作用是，内部集成了很多相关的工具，我们不需要挨个集成这些工具，只需要依赖xxx.starter即可 -->
@@ -129,14 +129,14 @@ Java 对象，把对象放入 Spring 容器中（注入到容器）。
 @Configuration
 public class SpringConfig {
 
-    @Bean
-    public Student createStudent() {
-        Student student = new Student();
-        student.setName("李四");
-        student.setAge(12);
-        student.setSex("男");
-        return student;
-    }
+	@Bean
+	public Student createStudent() {
+		Student student = new Student();
+		student.setName("李四");
+		student.setAge(12);
+		student.setSex("男");
+		return student;
+	}
 
 }
 ```
@@ -144,16 +144,16 @@ public class SpringConfig {
 2. 测试
 
 ```java
-    /**
-     * 使用 JavaConfig
-     */
-    @Test
-    public void test02() {
-        ApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext(SpringConfig.class);
-        Student student = (Student) applicationContext.getBean("createStudent");
-        System.out.println(student);
-    }
+/**
+* 使用 JavaConfig
+*/
+@Test
+public void test02() {
+	ApplicationContext applicationContext =
+	new AnnotationConfigApplicationContext(SpringConfig.class);
+	Student student = (Student) applicationContext.getBean("createStudent");
+	System.out.println(student);
+}
 ```
 
 
@@ -269,10 +269,10 @@ public class Tiger {
 */
 @Test
 public void test04() {
-		ApplicationContext applicationContext =
-			new AnnotationConfigApplicationContext(SpringConfig.class);
-		Tiger tiger = (Tiger) applicationContext.getBean("tiger");
-		System.out.println(tiger);
+	ApplicationContext applicationContext =
+	new AnnotationConfigApplicationContext(SpringConfig.class);
+	Tiger tiger = (Tiger) applicationContext.getBean("tiger");
+	System.out.println(tiger);
 }
 ```
 
@@ -285,9 +285,9 @@ public void test04() {
 ```Java
 @SpringBootApplication
 public class App{
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(App.class, args);
+	}
 }
 ```
 
@@ -638,7 +638,7 @@ public class MyAppConfig implements WebMvcConfigurer {
 ```yaml
 mybatis:
 	# 项目中 mapper 文件路径
-  mapper-locations: classpath*:mapper/*Mapper.xml
+	mapper-locations: classpath*:mapper/*Mapper.xml
   # 开启 mysql 的日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
