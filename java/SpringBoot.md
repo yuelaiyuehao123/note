@@ -1,4 +1,4 @@
-# Spring Boot 
+# SpringBoot 
 
 ## 1、第一章 Xml 和 JavaConfig
 
@@ -278,9 +278,23 @@ public void test04() {
 
 
 
-## 2、 第二章 Spring Boot 入门
+## 2、 第二章 SpringBoot 入门
 
-### 2.1、相关注解
+### 2.1、引导类
+
+```Java
+@SpringBootApplication
+public class App{
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+}
+```
+
+- SpringBoot的引导类是Boot工程的执行入口，运行main方法就可以启动项目
+- SpringBoot工程运行后初始化容器，扫描引导类所在包加载bean
+
+### 2.2、相关注解
 
 ```java
 @SpringBootApplication
@@ -294,7 +308,7 @@ public void test04() {
    扫描被@Component (@Service,@Controller)注解的 bean，注解默认会扫描该类所在的包下所有的类。
 ```
 
-### 2.2、配置文件
+### 2.3、配置文件
 
 配置文件名称：application 扩展名有 application.properties 和 application.yml
 
@@ -318,7 +332,7 @@ server:
 
 
 
-### 2.3、多环境配置
+### 2.4、多环境配置
 
 有开发环境，测试环境，上线环境
 
@@ -369,9 +383,9 @@ server:
 
 
 
-### 2.4、Spring Boot 自定义配置
+### 2.5、SpringBoot 自定义配置
 
-#### 2.4.1、@Value 注解
+#### 2.5.1、@Value 注解
 
 1. 在yml文件里面配置
 
@@ -413,7 +427,7 @@ public class BootController {
 }
 ```
 
-#### 2.4.2、@ConfigurationProperties 注解
+#### 2.5.2、@ConfigurationProperties 注解
 
 1. 在yml文件里面配置
 
@@ -480,7 +494,7 @@ public class BootController {
 
 
 
-### 2.5、CommandLineRunner 接口
+### 2.6、CommandLineRunner 接口
 
 配置类实现 CommandLineRunner 接口，并重写run() 方法。容器启动之后会自动执行 run() 方法，有需要在容器启动之后执行一些内容。比如读取配置文件，数据库连接之类的。可以吧逻辑写在该方法里面
 
@@ -500,7 +514,7 @@ public class App implements CommandLineRunner {
 
 
 
-## 3、第三章 Spring Boot  和 Web 组件
+## 3、第三章 SpringBoot  和 Web 组件
 
 ### 3.1、拦截器
 
@@ -595,9 +609,9 @@ public class MyAppConfig implements WebMvcConfigurer {
 
 
 
-## 4、第四章 Spring Boot 操作 MySQL
+## 4、第四章 SpringBoot 操作 MySQL
 
-使用 MyBatis 框架操作数据库， 在Spring Boot  中集成 MyBatis
+使用 MyBatis 框架操作数据库， 在SpringBoot  中集成 MyBatis
 
 ### 4.1 使用步骤
 
@@ -854,11 +868,11 @@ public String queryStudentById(@PathVariable("stuId") int id) {
 
 
 
-## 6、第六章 Spring Boot 集成 Redis
+## 6、第六章 SpringBoot 集成 Redis
 
 ### 6.1、Redis 介绍
 
-Redis：是一个 NoSQL 数据库，常用作为缓存使用（cache）。Redis 是一个中间件，是一个独立的服务器。Java 中著名的客户端有：Jedis，lettuce，Redisson。在 Spring Boot 中 用 RedisTemplate（StringRedisTemplate），处理和 Redis 交互。
+Redis：是一个 NoSQL 数据库，常用作为缓存使用（cache）。Redis 是一个中间件，是一个独立的服务器。Java 中著名的客户端有：Jedis，lettuce，Redisson。在 SpringBoot 中 用 RedisTemplate（StringRedisTemplate），处理和 Redis 交互。
 
 Redis：的数据类型有:
 
