@@ -103,6 +103,24 @@
 <!-- starter 最大的作用是，内部集成了很多相关的工具，我们不需要挨个集成这些工具，只需要依赖xxx.starter即可 -->
 ```
 
+#### 1.1.3、exclusion
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+	<exclusions>
+		<exclusion>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-tomcat</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+
+<!-- exclusion 排除依赖，上述例子中导入了 spring-boot-starter-web，但是不想使用其内部的 tomcat 
+		 就可思议使用 exclusion 标签进行排除依赖 -->
+```
+
 
 
 ### 1.2、什么是 JavaConfig
