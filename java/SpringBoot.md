@@ -885,6 +885,10 @@ http://localhost/user
 
 @DeleteMapping：支持 delete 请求方式，等同于@RequestMapping(method = RequestMethod.DELETE)
 
+@RequestBody：用于接收 json 数据
+
+@RequestParam：用于接收 url 地址传参或者表单传参
+
 ```java
 // 访问下面 URL
 http://192.168.72.32:8082/dev/student/2
