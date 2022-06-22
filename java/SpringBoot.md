@@ -904,17 +904,49 @@ public String queryStudentById(@PathVariable("stuId") int id) {
 
 
 
-## 6、第六章 SpringBoot 集成 Redis
+## 6、第六章 SpringBoot 整合第三方技术
 
-### 6.1、Redis 介绍
+### 6.1、整合 JUnit
 
-Redis：是一个 NoSQL 数据库，常用作为缓存使用（cache）。Redis 是一个中间件，是一个独立的服务器。Java 中著名的客户端有：Jedis，lettuce，Redisson。在 SpringBoot 中 用 RedisTemplate（StringRedisTemplate），处理和 Redis 交互。
+5. pom.xml 文件中增加 spring-boot-starter-test
 
-Redis：的数据类型有:
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-test</artifactId>
+	<scope>test</scope>
+</dependency>
+```
 
-1. string（字符串）
-2. hash（哈希）
-3. list（列表）
-4. set（集合）
-5. zset（sorted set：有序集合）
+2. 创建需要测试的类，并把该类添加到容器里面
+
+```java
+@Component
+public class StringUtil {
+
+    public boolean testIsEmpty(String str) {
+        return str.isEmpty();
+    }
+
+}
+```
+
+3. 在 test/java/包名 下创建Test.java 文件，与SpringBoot启动类的包名层级一样。运行test()方法即可
+
+```java
+@SpringBootTest
+public class AppTest {
+
+    @Autowired
+    StringUtil stringUtil;
+
+    @Test
+    void test() {
+        boolean result = stringUtil.testIsEmpty("haha");
+        System.out.println(result);
+    }
+
+}
+
+```
 
