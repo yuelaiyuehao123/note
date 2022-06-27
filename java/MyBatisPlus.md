@@ -210,7 +210,7 @@ snowflake是Twitter开源的分布式ID生成算法，结果是一个long型的I
 @AllArgsConstructor
 public class User {
 
-    //id 对应数据库中的主键
+    //id 对应数据库中的主键,自增策略
     @TableId(type = IdType.AUTO)
     private Long id;
     //姓名
@@ -223,7 +223,12 @@ public class User {
 }
 ```
 
-注意，要使用自增策略，数据库字段也一定是自增，不然回报错。
+注意:
+
+- 要使用自增策略，数据库字段也一定是自增，不然回报错。
+- 如果数据库主键确实是自增，上面也注明是@TableId(type = IdType.AUTO)，但是没有生效，有可能表中的自增规则被破坏了。需要重新新建表，重新测试。
+
+
 
 > 其他策略
 
