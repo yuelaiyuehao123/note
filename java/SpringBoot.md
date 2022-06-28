@@ -1,6 +1,6 @@
 # SpringBoot 
 
-## 1、第一章 Xml 和 JavaConfig
+## 1、Xml 和 JavaConfig
 
 ### 1.1、pom.xml 配置
 
@@ -296,7 +296,7 @@ public void test04() {
 
 
 
-## 2、 第二章 SpringBoot 入门
+## 2、SpringBoot 入门
 
 ### 2.1、引导类
 
@@ -532,7 +532,7 @@ public class App implements CommandLineRunner {
 
 
 
-## 3、第三章 SpringBoot  和 Web 组件
+## 3、SpringBoot  和 Web 组件
 
 ### 3.1、拦截器
 
@@ -627,7 +627,7 @@ public class MyAppConfig implements WebMvcConfigurer {
 
 
 
-## 4、第四章 SpringBoot 操作 MySQL
+## 4、SpringBoot 操作 MySQL
 
 使用 MyBatis 框架操作数据库， 在SpringBoot  中集成 MyBatis
 
@@ -845,7 +845,7 @@ public void addStudent(Student student) {
 
 
 
-## 5、第五章 RESTful 风格接口
+## 5、RESTful 风格接口
 
 ### 5.1、RESTful 接口特点
 
@@ -904,7 +904,7 @@ public String queryStudentById(@PathVariable("stuId") int id) {
 
 
 
-## 6、第六章 SpringBoot 整合第三方技术
+## 6、SpringBoot 整合第三方技术
 
 ### 6.1、整合 JUnit
 
@@ -949,4 +949,38 @@ public class AppTest {
 }
 
 ```
+
+
+
+## 7、SpringBoot 打包与运行
+
+### 7.1、打包
+
+1. 在idea右侧Maven插件中运行 package
+2. 打包成功后，会在项目根目录生成 target 文件夹，在该文件夹下生成 项目名称.jar
+
+
+
+### 7.2、运行
+
+1. pom.xml配置插件
+
+```xml
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+	</plugins>
+</build>
+```
+
+2. 运行jar
+
+```she
+java -jar /Users/cuiyue/Desktop/BookDemo-1.0.0.jar
+```
+
+
 
