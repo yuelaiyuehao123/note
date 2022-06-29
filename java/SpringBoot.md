@@ -352,19 +352,19 @@ server:
 
 ### 2.4、多环境配置
 
-有开发环境，测试环境，上线环境
+#### 2.4.1、基本使用
 
-每个环境有不同的配置信息，例如端口，上下文件，数据库url，用户名，密码等等
+resources目录下创建
 
-使用多环境配置文件，可以方便的切换不同的配置。
+- application.yml
+- application-dev.yml
+- application-pro.yml
 
-使用方式：创建多个匹配文件，名称规则：application-环境名称.yml
+三个配置文件，其中 application-dev.yml 和 application-pro.yml 里面做具体配置的内容，application.yml 指定使用某一个配置文件。
 
 举例：
 
-在resources目录下创建
-
-- application.yml 并指向 application-pro.yml
+application.yml：
 
 ```yaml
 spring:
@@ -372,34 +372,78 @@ spring:
     active: pro
 ```
 
-- application-dev.yml
+application-dev.yml
 
 ```yaml
 server:
-  port: 8083
-  servlet:
-    context-path: /dev
+  port: 8081
 ```
 
-- application-test.yml
+application-pro.yml
 
 ```yaml
 server:
-  port: 8083
-  servlet:
-    context-path: /test
+  port: 8082
 ```
 
-- application-pro.yml
+#### 2.4.2、分组
+
+分组可以认为是颗粒度是更加精细的配置文件。把一个配置文件，根据模块进一步拆分。由 application.yml 去指定使用哪一个分组。
+
+举例：
+
+把上面的 application-dev.yml 进行拆分  application-devDB.yml 和 application-devMyBatisPlus.yml ，在主配置中指定分组和使用分组
 
 ```yaml
-server:
-  port: 8083
-  servlet:
-    context-path: /pro
+spring:
+  profiles:
+    active: dev
+    group:
+      "dev": devDB,devMyBatisPlus
+      "pro": proDB,proMyBatisPlus
 ```
 
+这样运行的时候，会加载  application-dev.yml 、application-devDB.yml、 application-devMyBatisPlus.yml 三个配置文件
 
+#### 2.4.3、配置文件与maven联动
+
+修改maven里面的配置，指定环境
+
+1. pom.xml 中 增加配置
+
+```xml
+    <profiles>
+        <profile>
+            <id>env_dev</id>
+            <properties>
+                <profile.active>dev</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>env_pro</id>
+            <properties>
+                <profile.active>pro</profile.active>
+            </properties>
+          <!-- 指定使用pro环境 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+```
+
+2. 在 application.yml 引用变量
+
+```yaml
+spring:
+  profiles:
+    active: @profile.active@
+    group:
+      "dev": devDB,devMyBatisPlus
+      "pro": proDB,proMyBatisPlus
+```
+
+备注：在maven中切换环境之后，idea运行不起作用。可以 compile 一下在试试。 
 
 ### 2.5、SpringBoot 自定义配置
 
@@ -981,6 +1025,3 @@ public class AppTest {
 ```she
 java -jar /Users/cuiyue/Desktop/BookDemo-1.0.0.jar
 ```
-
-
-
