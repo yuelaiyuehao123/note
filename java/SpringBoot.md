@@ -1025,3 +1025,63 @@ public class AppTest {
 ```she
 java -jar /Users/cuiyue/Desktop/BookDemo-1.0.0.jar
 ```
+
+
+
+## 8、日志
+
+### 8.1、日志打印
+
+使用 lombok 提供的日志系统打印，增加注解 @Slf4j，用 log 对象打印即可
+
+```java
+@Slf4j
+@RestController
+@RequestMapping("/books")
+public class BookController {
+
+    @Autowired
+    BookService bookService;
+
+    @GetMapping()
+    public R getAll() {
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
+        List<Book> all = bookService.getAll();
+        return new R(true, all);
+    }
+
+}
+```
+
+### 8.2、日志配置（分组、显示级别、文件存储）
+
+pom.xml 中配置：
+
+```yaml
+logging:
+	# 创建了book 组
+  group:
+    book: com.cy.book
+  level:
+  	# 项目日志级级别为 info 级别
+    root: info
+    # book组日志级别为 debug 级别
+    book: debug
+  file:
+    # 日志文件名称：server.log
+    name: server.log
+  logback:
+    rollingpolicy:
+      # 日志文件名称：每个日志文件的大小
+      max-file-size: 3KB
+      # 日志文件名称：每个日志文件的名称
+      #	server.2022-06-29.0.log
+      #	server.2022-06-29.1.log
+      #	server.2022-06-29.2.log
+      #	server.2022-06-29.3.log
+      file-name-pattern: server.%d{yyyy-MM-dd}.%i.log
+```
+
