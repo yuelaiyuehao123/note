@@ -228,7 +228,7 @@ public class SpringConfig {
 
 ### 1.4、@PropertyResource
 
-@PropertyResource 读取 properties 属性配置文件。使用属性配置文件可以实现外部化配置，在程序代码之外提供数据。
+读取 properties 中的配置的值，赋值到 Java 对象上面，Java 对象可以是自定义的，也可以是第三方的。最终加入到 SpringBoot 容器中
 
 举例：
 
@@ -291,6 +291,121 @@ public void test04() {
 	new AnnotationConfigApplicationContext(SpringConfig.class);
 	Tiger tiger = (Tiger) applicationContext.getBean("tiger");
 	System.out.println(tiger);
+}
+```
+
+### 1.5、@ConfigurationProperties
+
+读取 yml 中的配置的值，赋值到 Java 对象上面，Java 对象可以是自定义的，也可以是第三方的。最终加入到 SpringBoot 容器中
+
+赋值到自定义对象：
+
+1. 在 application.yml 中定义
+
+```yaml
+servers:
+  ipAddress: 192.168.0.1
+  port: 2345
+  timeout: -1
+```
+
+2. 创建 ServiceConfig 配置类
+
+```java
+@Data
+@Component
+@ConfigurationProperties(prefix = "servers")
+public class ServiceConfig {
+    private String ipAddress;
+    private String port;
+    private String timeout;
+}
+```
+
+3. 测试
+
+```java
+@SpringBootApplication
+@MapperScan("com.cy.book.mapper")
+public class Application {
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
+        ServiceConfig serviceConfig = applicationContext.getBean(ServiceConfig.class);
+        System.out.println(serviceConfig);
+    }
+
+}
+```
+
+赋值到第三方对象：
+
+1. 导入第三方
+
+```xml
+<!-- druid -->
+<dependency>
+	<groupId>com.alibaba</groupId>
+	<artifactId>druid-spring-boot-starter</artifactId>
+	<version>1.2.11</version>
+</dependency>
+```
+
+2. 在 application.yml 中定义
+
+```yaml
+datasourcehaha:
+    driverClassName: com.mysql.jdbc.Driver111
+```
+
+3. 创建 @bean  加入到容器和测试
+
+```java
+@SpringBootApplication
+public class Application {
+
+    @Bean
+    @ConfigurationProperties(prefix = "datasourcehaha")
+    public DruidDataSource druidDataSource(){
+        DruidDataSource druidDataSource = new DruidDataSource();
+        return druidDataSource;
+    }
+
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
+        DruidDataSource dataSource = applicationContext.getBean(DruidDataSource.class);
+        String driverClassName = dataSource.getDriverClassName();
+        System.out.println(driverClassName);
+    }
+
+}
+
+```
+
+### 1.6、@EnableConfigurationProperties
+
+@EnableConfigurationProperties 与 @Component 不能同时使用
+
+例如：
+
+```java
+@SpringBootApplication
+@EnableConfigurationProperties(ServiceConfig.class)
+public class Application {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class, args);
+        ServiceConfig serviceConfig = applicationContext.getBean(ServiceConfig.class);
+        System.out.println(serviceConfig);
+    }
+}
+
+@Data
+//@Component
+@ConfigurationProperties(prefix = "servers")
+public class ServiceConfig {
+    private String ipAddress;
+    private String port;
+    private String timeout;
 }
 ```
 
@@ -489,7 +604,7 @@ public class BootController {
 }
 ```
 
-#### 2.5.2、@ConfigurationProperties 注解
+#### 2.5.2、@ConfigurationProperties 注解，在controller里面使用
 
 1. 在yml文件里面配置
 
