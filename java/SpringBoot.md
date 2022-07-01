@@ -985,6 +985,8 @@ public class StudentController {
 
 ### 4.2、事务
 
+#### 4.2.1、场景一
+
 在需要增加事务的方法上增加注解 @Transactional 即可
 
 ```java
@@ -1001,6 +1003,29 @@ public void addStudent(Student student) {
 1. 只有Public方法才能开启事务
 2. 检查类有没有被Spring管理（方法被标注了@Transactional，但是类没有注解，没有被Spring管理也不会生效）
 3. 检查是否在事务中新开启了一个线程（因为spring实现事务的原理是通过ThreadLocal把数据库连接绑定到当前线程中，新开启一个线程获取到的连接就不是同一个了。）
+
+#### 4.2.2、场景二
+
+加到测试类上面可以做数据库回滚，比如测试往数据局增加数据，这些数据不希望真实增加到数据库里面，就可以在测试类上面增加该注解。
+
+```java
+@SpringBootTest
+@Transactional
+public class AppTest {
+
+    @Autowired
+    private BookService bookService;
+
+    @Test
+    public void testInsert() {
+        Book book = new Book();
+        book.setType("计算机理论2");
+        book.setName("测试书籍2");
+        book.setDescription("测试描述2");
+        bookService.save(book);
+    }
+}
+```
 
 
 
