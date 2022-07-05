@@ -1229,6 +1229,10 @@ logging:
 
 ## 9、缓存
 
+### 9.1、场景一：
+
+查询数据库得到值之后，缓存起来，下次再次请求，先判断缓存中是否存在，如果存在就从缓存中获取。
+
 1. pom.xml中配置
 
 ```xml
@@ -1264,3 +1268,70 @@ public Book getById(int id) {
 }
 ```
 
+### 9.2、场景二：
+
+生成验证码之后，随机生成的验证码存到缓存中，客户端调用校验方法从缓存中取，做对比
+
+1. pom.xml中配置
+2. application中开启
+3. 验证码用 @CachePut 存起来，校验验证码的时候从缓存中取。注意。获取验证码的方法要封装到spring boot 容器 bean 里面
+
+```java
+@Service
+public class MsgServiceImpl implements MsgService {
+
+    @Autowired
+    private CodeUtils codeUtils;
+
+    @CachePut(key = "#phone", value = "msmCode")
+    @Override
+    public String get(String phone) {
+        String code = codeUtils.generator(phone);
+        return code;
+    }
+
+    @Override
+    public boolean check(MsgBean msgBean) {
+        String phone = msgBean.getPhone();
+        String code = msgBean.getCode();
+        String cacheCode = codeUtils.getCacheCode(phone);
+        return code.equals(cacheCode);
+    }
+
+}
+```
+
+4. 生成验证码，和获取验证码容器 bean
+
+```java
+@Component
+public class CodeUtils {
+
+    private String[] path = {"000000", "00000", "0000", "000", "00", "0", ""};
+
+    public String generator(String phone) {
+        int hash = phone.hashCode();
+        int encryption = 20206666;
+        long result = hash ^ encryption;
+        long nowTime = System.currentTimeMillis();
+        result = result ^ nowTime;
+        long code = result % 1000000;
+        code = code < 0 ? -code : code;
+        String codeStr = code + "";
+        int len = codeStr.length();
+        return path[len] + codeStr;
+    }
+
+    @Cacheable(key = "#phone", value = "msmCode")
+    public String getCacheCode(String phone) {
+        return null;
+    }
+
+}
+```
+
+### 9.3 @Cacheable 和 @CachePut 区别
+
+@Cacheable 支持存和取
+
+@CachePut 只存储
