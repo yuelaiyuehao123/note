@@ -814,9 +814,9 @@ public class MyAppConfig implements WebMvcConfigurer {
 
 ```yaml
 mybatis:
-	# 项目中 mapper 文件路径
+  # 项目中 mapper 文件路径
 	mapper-locations: classpath*:mapper/*Mapper.xml
-  # 开启 mysql 的日志
+	# 开启 mysql 的日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
@@ -1223,5 +1223,44 @@ logging:
       #	server.2022-06-29.2.log
       #	server.2022-06-29.3.log
       file-name-pattern: server.%d{yyyy-MM-dd}.%i.log
+```
+
+
+
+## 9、缓存
+
+1. pom.xml中配置
+
+```xml
+<!-- cache -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-cache</artifactId>
+</dependency>
+```
+
+2. application中开启
+
+```java
+@SpringBootApplication
+@MapperScan("com.cy.book.mapper")
+@EnableCaching
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+```
+
+3. service 中具体方法上增加注解
+
+```java
+@Cacheable(key = "#id", value = "cacheSpace")
+@Override
+public Book getById(int id) {
+	return bookMapper.selectById(id);
+}
 ```
 
