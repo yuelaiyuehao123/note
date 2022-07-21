@@ -351,3 +351,107 @@ done
 
 
 
+## 7、read 读取控制台输入
+
+### 7.1、基本语法
+
+```shell
+read (选项)（参数）
+1. 选项：
+	-p: 指定读取值时的提示符：
+	-t: 指定读取值时等待的时间（秒）如果不加 -t 表示一直等待
+2. 参数
+	变量: 指定读取值变量名字
+```
+
+### 7.2、demo 读取控制台输入的名字
+
+```shell
+#!/bin/bash
+
+read -p "请输入您的姓名：" name
+echo "欢迎：" $name
+```
+
+
+
+## 8、系统函数
+
+### 8.1、basename
+
+#### 8.1.1、在命令行中使用
+
+```shell
+# 打印文件名字
+basename /Users/cuiyue/workspase/systemmethod.sh
+# 输出：
+systemmethod.sh
+```
+
+#### 8.2.2、在脚本中使用
+
+```shell
+#!/bin/bash
+
+currentFileName=$( basename $0 )
+echo "当前文件目录：" $currentFileName
+```
+
+### 8.2、dirname
+
+#### 8.2.1、在命令行中使用
+
+```shell
+# 打印文件所在路径
+dirname /Users/cuiyue/workspase/systemmethod.sh
+# 输出：
+/Users/cuiyue/workspase
+```
+
+#### 8.2.2、在脚本中使用
+
+```shell
+#!/bin/bash
+
+currentDirName=$( dirname $0 )
+echo "当前文件目录：" $currentDirName
+```
+
+### 8.3、注意:
+
+在脚本中使用系统函数 语法为：$(    )
+
+
+
+## 9、自定义函数
+
+### 9.1、语法
+
+```shell
+# 定义函数 
+# 其中 function 可以不用写，可以没有返回值
+function 函数名字(){
+	函数体
+  返回值
+}
+
+# 调用函数
+变量接收函数的返回值=$(函数名字 实参1 实参2 ...)
+```
+
+### 9.2、demo 
+
+```shell
+#!/bin/bash
+
+# 定义个两个数字加法函数
+add(){
+  s=$[ $1 + $2 ]
+  echo $s
+}
+# 调用函数
+sum=$(add 2 2)
+# 控制台输出
+echo "和:" $sum
+```
+
