@@ -1084,7 +1084,7 @@ ALTER TABLE employee ADD FULLTEXT(`first_name`)
 这里用人与身份证的关系来举例，我们新建 `person` 表：
 
 ```sql
-CREATE TABLE person
+CREATE TABLE person(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	name CHAR(30) DEFAULT NULL
 )
@@ -1102,6 +1102,12 @@ CREATE TABLE id_card(
 ```
 
 然后添加点数据：
+
+```sql
+INSERT INTO person (`name`) VALUES ('小A'),('小B'),('小C'); 
+INSERT INTO id_card (`card_no`,`person_id`) VALUES ('34xxxxxxxxxxxx0912',1),('34xxxxxxxxxxxx1108',2),('34xxxxxxxxxxxx0422',3); 
+```
+
 `person` 表：
 
 | id   | name |
@@ -1120,10 +1126,8 @@ CREATE TABLE id_card(
 
 然后查询所有人的姓名和对应的身份证号：
 
-```
-SELECT a.name,b.card_no 
-FROM person a LEFT JOIN id_card b
-ON a.id=b.person_id;
+```sql
+SELECT a.name,b.card_no FROM person a LEFT JOIN id_card b ON a.id=b.person_id;
 ```
 
 查询结果：
@@ -1141,16 +1145,16 @@ ON a.id=b.person_id;
 
 我们创建班级表`class`:
 
-```
+```sql
 CREATE TABLE class(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	class_name VARCHAR(30) COMMENT '班级名'
-);
+)
 ```
 
 再创建学生表`student`：
 
-```
+```sql
 CREATE TABLE student(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	student_name CHAR(30) COMMENT '学生名',
@@ -1161,7 +1165,12 @@ CREATE TABLE student(
 
 创建学生表时，每个学生都有一个班级，我们用`class_id`作为表示，然后和`class`表建立外键约束（这一步也可不要，看开发情况而定）。
 
-添加数据后
+添加数据：
+
+```sql
+INSERT INTO class (`class_name`) VALUES ('一班'),('二班'),('三班'); 
+INSERT INTO student (`student_name`,`class_id`) VALUES ('李安安',1),('陈小帅',1),('张力克',3); 
+```
 
 class 表：
 
@@ -1181,7 +1190,7 @@ student 表：
 
 然后查一下所有班级和班级的学生数量：
 
-```
+```sql
 SELECT c.class_name ,COUNT(s.student_name) student_num 
 FROM class c LEFT JOIN student s ON c.id=s.class_id 
 GROUP BY c.class_name;
@@ -1192,8 +1201,8 @@ GROUP BY c.class_name;
 | id   | student_num |
 | ---- | ----------- |
 | 一班 | 2           |
-| 三班 | 1           |
 | 二班 | 0           |
+| 三班 | 1           |
 
 ## 8.3、多对多
 
@@ -1204,7 +1213,7 @@ GROUP BY c.class_name;
 
 新建`tag`(文章分类)表：
 
-```
+```sql
 CREATE TABLE tag(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	tag_name VARCHAR(50) NOT NULL
@@ -1213,7 +1222,7 @@ CREATE TABLE tag(
 
 新建`article`(文章)表：
 
-```
+```sql
 CREATE TABLE article(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	title VARCHAR(100) NOT NULL
@@ -1222,7 +1231,7 @@ CREATE TABLE article(
 
 再建立`tag`和`article`的关系表：
 
-```
+```sql
 CREATE TABLE tag_article(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	tag_id INT UNSIGNED DEFAULT NULL,
@@ -1259,10 +1268,16 @@ CREATE TABLE tag_article(
 | 3    | 3      | 3          |
 | 4    | 1      | 2          |
 
+```sql
+INSERT INTO tag (tag_name) VALUES ("文学"),("科技"),("编程");
+INSERT INTO article (title) VALUES ("青青河边草"),("我国在航空领域取得重大成就"),("PHP是世界上最好的语言");
+INSERT INTO tag_article (tag_id,article_id) VALUES (1,1),(2,2),(3,3),(1,2);
+```
+
 开发中通过`tag_article`关系表来进行查询
 比如查询`tag_id=1`的所有文章：
 
-```
+```sql
 SELECT a.title 
 FROM article a INNER JOIN tag_article t 
 ON a.id=t.article_id 
@@ -1275,3 +1290,4 @@ WHERE tag_id=1
 | -------------------------- |
 | 青青河边草                 |
 | 我国在航空领域取得重大成就 |
+
