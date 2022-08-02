@@ -1067,3 +1067,211 @@ CREATE TABLE `student`(
 ALTER TABLE employee ADD FULLTEXT(`first_name`)
 ```
 
+
+
+# 8、查询练习
+
+## 8.1、一对一
+
+比如：
+
+- 人与身份证的关系。
+- 商品与商品信息的关系。
+- QQ号与QQ空间的关系。
+
+即使是一对一也要明确**主从关系**，比如人与身份证的关系，人是主，身份证是从，因为没有人哪里来的身份证呢？再比如 没有商品哪来的商品信息呢？
+
+这里用人与身份证的关系来举例，我们新建 `person` 表：
+
+```sql
+CREATE TABLE person
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	name CHAR(30) DEFAULT NULL
+)
+```
+
+再建`id_card`表，并通过外键`person_id`与主表关联：
+
+```
+CREATE TABLE id_card(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	card_no VARCHAR(20) NOT NULL,
+	person_id INT UNSIGNED,
+	CONSTRAINT id_card_person FOREIGN KEY (person_id) REFERENCES person(id)
+)
+```
+
+然后添加点数据：
+`person` 表：
+
+| id   | name |
+| ---- | ---- |
+| 1    | 小A  |
+| 2    | 小B  |
+| 3    | 小C  |
+
+`id_card` 表:
+
+| id   | card_no            | person_id |
+| ---- | ------------------ | --------- |
+| 1    | 34xxxxxxxxxxxx0912 | 1         |
+| 2    | 34xxxxxxxxxxxx1108 | 2         |
+| 2    | 34xxxxxxxxxxxx0422 | 3         |
+
+然后查询所有人的姓名和对应的身份证号：
+
+```
+SELECT a.name,b.card_no 
+FROM person a LEFT JOIN id_card b
+ON a.id=b.person_id;
+```
+
+查询结果：
+
+| name | card_no            |
+| ---- | ------------------ |
+| 小A  | 34xxxxxxxxxxxx0912 |
+| 小B  | 34xxxxxxxxxxxx1108 |
+| 小C  | 34xxxxxxxxxxxx0422 |
+
+## 8.2、一对多
+
+一对多，即主表的一个数据可以有多个从表的数据。
+举个例子：班级和学生，一个班级有多个学生，主表是班级，从表是学生。
+
+我们创建班级表`class`:
+
+```
+CREATE TABLE class(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	class_name VARCHAR(30) COMMENT '班级名'
+);
+```
+
+再创建学生表`student`：
+
+```
+CREATE TABLE student(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	student_name CHAR(30) COMMENT '学生名',
+	class_id INT UNSIGNED DEFAULT NULL COMMENT '班级id',
+	CONSTRAINT student_class FOREIGN KEY (class_id) REFERENCES class(id)
+)
+```
+
+创建学生表时，每个学生都有一个班级，我们用`class_id`作为表示，然后和`class`表建立外键约束（这一步也可不要，看开发情况而定）。
+
+添加数据后
+
+class 表：
+
+| id   | class_name |
+| ---- | ---------- |
+| 1    | 一班       |
+| 2    | 二班       |
+| 3    | 三班       |
+
+student 表：
+
+| id   | student_name | class_id |
+| ---- | ------------ | -------- |
+| 1    | 李安安       | 1        |
+| 2    | 陈小帅       | 1        |
+| 3    | 张力克       | 3        |
+
+然后查一下所有班级和班级的学生数量：
+
+```
+SELECT c.class_name ,COUNT(s.student_name) student_num 
+FROM class c LEFT JOIN student s ON c.id=s.class_id 
+GROUP BY c.class_name;
+```
+
+结果：
+
+| id   | student_num |
+| ---- | ----------- |
+| 一班 | 2           |
+| 三班 | 1           |
+| 二班 | 0           |
+
+## 8.3、多对多
+
+三种关系里，多对多是最复杂的。
+多对多举例：一篇文章有可以有多种分类，一种分类可以有多篇文章。
+
+由于多对多的关系比较复杂，我们一般会添加一张中间表专门来记录他们的关系。
+
+新建`tag`(文章分类)表：
+
+```
+CREATE TABLE tag(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	tag_name VARCHAR(50) NOT NULL
+)
+```
+
+新建`article`(文章)表：
+
+```
+CREATE TABLE article(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	title VARCHAR(100) NOT NULL
+)
+```
+
+再建立`tag`和`article`的关系表：
+
+```
+CREATE TABLE tag_article(
+	id INT UNSIGNED PRIMARY KEY auto_increment,
+	tag_id INT UNSIGNED DEFAULT NULL,
+	article_id INT UNSIGNED DEFAULT NULL,
+	FOREIGN KEY(tag_id) REFERENCES tag(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(article_id) REFERENCES article(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	UNIQUE(tag_id,article_id)
+)
+```
+
+然后添加了些数据后：
+`tag`表:
+
+| id   | tag_name |
+| ---- | -------- |
+| 1    | 文学     |
+| 2    | 科技     |
+| 3    | 编程     |
+
+`article`表：
+
+| id   | title                      |
+| ---- | -------------------------- |
+| 1    | 青青河边草                 |
+| 2    | 我国在航空领域取得重大成就 |
+| 3    | PHP是世界上最好的语言      |
+
+`tag_article`关系表：
+
+| id   | tag_id | article_id |
+| ---- | ------ | ---------- |
+| 1    | 1      | 1          |
+| 2    | 2      | 2          |
+| 3    | 3      | 3          |
+| 4    | 1      | 2          |
+
+开发中通过`tag_article`关系表来进行查询
+比如查询`tag_id=1`的所有文章：
+
+```
+SELECT a.title 
+FROM article a INNER JOIN tag_article t 
+ON a.id=t.article_id 
+WHERE tag_id=1
+```
+
+查询结果：
+
+| title                      |
+| -------------------------- |
+| 青青河边草                 |
+| 我国在航空领域取得重大成就 |
