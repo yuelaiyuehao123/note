@@ -1092,7 +1092,7 @@ CREATE TABLE person(
 
 再建`id_card`表，并通过外键`person_id`与主表关联：
 
-```
+```sql
 CREATE TABLE id_card(
 	id INT UNSIGNED PRIMARY KEY auto_increment,
 	card_no VARCHAR(20) NOT NULL,
