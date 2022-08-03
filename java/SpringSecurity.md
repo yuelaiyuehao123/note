@@ -147,7 +147,7 @@ public class HelloController {
 
 ​	SpringSecurity的原理其实就是一个过滤器链，内部包含了提供各种功能的过滤器。这里我们可以看看入门案例中的过滤器。
 
-![image-20211214144425527](/Users/cuiyue/Downloads/SpringSecurity/img/image-20211214144425527.png)
+![image-20211214144425527](SpringSecurity.assets/image-20211214144425527.png)
 
 ​	图中只展示了核心过滤器，其它的非核心过滤器并没有在图中展示。
 
