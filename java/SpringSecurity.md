@@ -2226,15 +2226,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ~~~~
 
 
-
-
-
-### 其他认证方案畅想
-
-
-
-
-
-## 7. 源码讲解
-
-​	投票过50更新源码讲解
