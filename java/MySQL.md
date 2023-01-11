@@ -1291,3 +1291,80 @@ WHERE tag_id=1
 | 青青河边草                 |
 | 我国在航空领域取得重大成就 |
 
+## 8.4、 RBAC模型
+
+用户表:
+
+```sql
+CREATE TABLE IF NOT EXISTS `t_user`(
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`user_name` VARCHAR(20) NOT NULL COMMENT '用户名',
+	`user_pwd` VARCHAR(20) NOT NULL COMMENT '密码',
+	`phone` varchar(20) DEFAULT NULL COMMENT '手机号',
+	PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_user` VALUES (1,'张三','123456','18513028006');
+INSERT INTO `t_user` VALUES (2,'李四','123456','18513028008');
+```
+
+角色表：
+
+```sql
+CREATE TABLE IF NOT EXISTS `t_role`(
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`role_name` VARCHAR(20) NOT NULL COMMENT '角色名',
+	`role_remarker` VARCHAR(20) NOT NULL COMMENT '角色备注',
+	PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_role` VALUES (1,'普通用户','没有充值的用户');
+INSERT INTO `t_role` VALUES (2,'vip用户','氪金大佬');
+```
+
+权限表：
+
+```sql
+CREATE TABLE IF NOT EXISTS `t_permission`(
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`action` VARCHAR(20) NOT NULL COMMENT '行为',
+	PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_permission` VALUES (1,'permission:add');
+INSERT INTO `t_permission` VALUES (2,'permission:delete');
+INSERT INTO `t_permission` VALUES (3,'permission:update');
+INSERT INTO `t_permission` VALUES (4,'permission:select');
+```
+
+用户角色表：
+
+```sql
+CREATE TABLE IF NOT EXISTS `t_user_role`(
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`user_id` int(11) NOT NULL COMMENT '用户id',
+	`role_id` int(11) NOT NULL COMMENT '角色id',
+	PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_user_role` VALUES (1,1,1);
+INSERT INTO `t_user_role` VALUES (2,2,2);
+```
+
+角色权限表：
+
+```sql
+CREATE TABLE IF NOT EXISTS `t_role_permission`(
+	`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+	`role_id` int(11) NOT NULL COMMENT '角色id',
+	`permission_id` int(11) NOT NULL COMMENT '权限id',
+	PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+INSERT INTO `t_role_permission` VALUES (1,1,4);
+INSERT INTO `t_role_permission` VALUES (2,2,1);
+INSERT INTO `t_role_permission` VALUES (3,2,2);
+INSERT INTO `t_role_permission` VALUES (4,2,3);
+INSERT INTO `t_role_permission` VALUES (5,2,4);
+```
+
